@@ -21,7 +21,7 @@
   <div class="hero-copy">
     <p class="kicker">PERSONALITY-DRIVEN COLLABORATION</p>
     <h1>讓個性被看見，<br><em>讓音樂找到隊友。</em></h1>
-    <p class="lead">用 40 個直覺選擇，理解你的 Big Five 人格輪廓。生成專屬音樂角色，找到與你互補的創作夥伴。</p>
+    <p class="lead">用 50 個直覺選擇，理解你的 Big Five 人格輪廓。生成專屬音樂角色，找到與你互補的創作夥伴。</p>
     <button class="primary" data-go="profile">開始建立音樂人格 <span>→</span></button>
   </div>
   <div class="hero-visual">
@@ -43,21 +43,21 @@
         <button class="avatar-choice active" data-avatar="♪">♪</button><button class="avatar-choice" data-avatar="♫">♫</button>
         <button class="avatar-choice" data-avatar="♬">♬</button><button class="avatar-choice" data-avatar="♩">♩</button>
       </div>
-      <button class="primary full" id="toQuiz">開始 40 題人格探索 <span>→</span></button>
+      <button class="primary full" id="toQuiz">開始 50 題人格探索 <span>→</span></button>
     </div>
     <aside class="info-card"><span>WHY BIG FIVE?</span><h3>不是把人分類，<br>而是看見每個人的組成。</h3><p>五大人格以連續分數呈現特質差異。每個人都有五項特質，只是比例不同。</p><div class="mini-traits"><b>O</b><b>C</b><b>E</b><b>A</b><b>N</b></div></aside>
   </div>
 </section>
 
 <section class="screen" id="quiz">
-  <div class="quiz-top"><div><span id="qCount">QUESTION 01 / 40</span><div class="quiz-progress"><i id="qProgress"></i></div></div><button class="ghost" id="saveExit">暫存並離開</button></div>
+  <div class="quiz-top"><div><span id="qCount">QUESTION 01 / 50</span><div class="quiz-progress"><i id="qProgress"></i></div></div><button class="ghost" id="saveExit">暫存並離開</button></div>
   <div class="question-wrap">
     <p class="trait-hint" id="traitHint">請依照平常真實的自己作答</p>
     <h2 id="questionText"></h2>
     <div class="likert" id="likert">
-      <button data-value="1"><i></i><span>非常不同意</span></button><button data-value="2"><i></i><span>不同意</span></button>
-      <button data-value="3"><i></i><span>普通</span></button><button data-value="4"><i></i><span>同意</span></button>
-      <button data-value="5"><i></i><span>非常同意</span></button>
+      <button data-value="1"><i></i><span>非常不符合</span></button><button data-value="2"><i></i><span>不符合</span></button>
+      <button data-value="3"><i></i><span>中立</span></button><button data-value="4"><i></i><span>符合</span></button>
+      <button data-value="5"><i></i><span>非常符合</span></button>
     </div>
     <div class="quiz-actions"><button class="back-btn" id="prevQ">← 上一題</button><span>鍵盤 1–5 也可以作答</span></div>
   </div>
@@ -82,7 +82,16 @@
     </div>
   </div>
   <div class="insight-panel"><span>TOP 2 TRAITS</span><h3 id="topTraits"></h3><p id="advice"></p></div>
-  <div class="music-role"><div><span>YOUR MUSIC ROLE</span><h3 id="musicRole"></h3><p id="musicDesc"></p></div><button class="sound-btn" id="previewSound"><i>▶</i> 試聽你的聲景</button></div>
+  <div class="music-role">
+    <div class="role-copy"><span>YOUR MUSIC ROLE</span><h3 id="musicRole"></h3><p id="musicDesc"></p></div>
+    <div class="licensed-player">
+      <div class="track-meta"><span id="trackLicense">CC BY 4.0</span><h4 id="trackName">Cylinder Seven</h4><p>Chris Zabriskie · Cylinders</p></div>
+      <audio id="musicAudio" preload="metadata"></audio>
+      <div class="audio-controls"><button class="sound-btn" id="previewSound"><i>▶</i> 播放推薦音樂</button><input id="musicProgress" type="range" min="0" max="100" value="0" aria-label="音樂進度"></div>
+      <div class="track-picks" id="trackPicks"></div>
+      <a class="license-link" href="https://chriszabriskie.com/cylinders/" target="_blank" rel="noopener">音樂來源與 Creative Commons Attribution 授權 ↗</a>
+    </div>
+  </div>
   <button class="primary next-center" data-go="team">尋找互補隊友 <span>→</span></button>
 </section>
 
