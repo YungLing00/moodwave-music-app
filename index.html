@@ -31,6 +31,27 @@
       <p class="eyebrow">INTERACTIVE SOUND EXPERIENCE</p>
       <h1>Listen to how<br><em>you feel.</em></h1>
       <p class="intro">選擇此刻的心情，讓聲音、色彩與呼吸節奏<br class="desktop-only">陪你回到自己的頻率。</p>
+      <div class="hero-proof"><span>RESEARCH-INSPIRED PROTOTYPE</span><span>PRIVACY BY DESIGN</span><span>NO DATA UPLOADED</span></div>
+    </section>
+
+    <section class="checkin" aria-labelledby="checkinTitle">
+      <div class="question-row">
+        <div><span class="step">CHECK–IN</span><h2 id="checkinTitle">先感受，不急著改變</h2></div>
+        <p>A brief emotional self check-in</p>
+      </div>
+      <div class="checkin-panel">
+        <div class="scale-group">
+          <label for="valence">此刻的感受</label>
+          <div class="scale-labels"><span>不舒服</span><output id="valenceOut">5</output><span>舒服</span></div>
+          <input id="valence" class="research-range" type="range" min="1" max="9" value="5">
+        </div>
+        <div class="scale-group">
+          <label for="arousal">此刻的能量</label>
+          <div class="scale-labels"><span>低能量</span><output id="arousalOut">5</output><span>高能量</span></div>
+          <input id="arousal" class="research-range" type="range" min="1" max="9" value="5">
+        </div>
+        <p class="privacy-note">數值只保留在目前頁面，不會上傳或儲存。</p>
+      </div>
     </section>
 
     <section class="experience" aria-labelledby="moodQuestion">
@@ -122,6 +143,42 @@
       </aside>
     </section>
 
+    <section class="evidence" id="evidence">
+      <div class="evidence-heading">
+        <div><span class="step">RESEARCH NOTES</span><h2>從研究走向互動設計</h2></div>
+        <p>本作品是研究啟發的互動原型，不是心理治療或醫療器材。</p>
+      </div>
+      <div class="evidence-grid">
+        <article>
+          <span>01 / PSYCHOLOGY</span>
+          <h3>先覺察，再選擇</h3>
+          <p>以「感受舒適度 × 能量程度」作為簡短自我觀察，協助使用者描述此刻狀態，而非替使用者診斷情緒。</p>
+          <a href="https://psy.nccu.edu.tw/PageThesis/Paper?fid=7934" target="_blank" rel="noopener">政大心理系學生論文資料庫 ↗</a>
+        </article>
+        <article>
+          <span>02 / MUSIC</span>
+          <h3>音樂作為調節媒介</h3>
+          <p>研究顯示，大學生聆聽熟悉音樂後正向情緒較高，其中放鬆與抽離是常見且較有效的音樂情緒調節策略。</p>
+          <a href="https://www.airitilibrary.com/Article/Detail/U0002-1906201810503800" target="_blank" rel="noopener">〈大學生聆聽音樂的正向情緒與情緒調節策略〉↗</a>
+        </article>
+        <article>
+          <span>03 / PERSONALIZATION</span>
+          <h3>由使用者決定適合的聲音</h3>
+          <p>政大音樂檢索研究以使用者回饋建立個人化特徵；因此 MoodWave 提供聲景選擇與變化控制，不宣稱單一音樂適合所有人。</p>
+          <a href="https://thesis.lib.nccu.edu.tw/detail/7739dae6bc91a340ba753ce136f32eda/" target="_blank" rel="noopener">〈個人化情緒／情境音樂檢索系統〉↗</a>
+        </article>
+        <article>
+          <span>04 / MUSIC PRACTICE</span>
+          <h3>音樂與科技的跨域實踐</h3>
+          <p>台藝大音樂系課程包含音樂治療概論、數位音樂與錄音；本原型據此連結聆聽、數位聲音與互動體驗。</p>
+          <a href="https://music.ntua.edu.tw/" target="_blank" rel="noopener">國立臺灣藝術大學音樂學系 ↗</a>
+        </article>
+      </div>
+      <div class="method-strip">
+        <span>設計流程</span><b>自我覺察</b><i>→</i><b>自主選擇</b><i>→</i><b>多感官回饋</b><i>→</i><b>再次感受</b>
+      </div>
+    </section>
+
     <section class="reflection">
       <span class="step">03</span>
       <blockquote>“情緒不需要被修正，<br>只需要被好好聽見。”</blockquote>
@@ -130,7 +187,7 @@
   </main>
 
   <footer>
-    <span>MOODWAVE © 2026</span>
+    <span>MOODWAVE © 2026 · RESEARCH-INSPIRED, NOT CLINICAL</span>
     <span>DESIGNED FOR MINDFUL MOMENTS</span>
   </footer>
 
