@@ -1,237 +1,33 @@
-const moods = {
-  calm: {
-    title: "Still Water", subtitle: "A soft space for slowing down",
-    colors: ["#a9dbd8", "#6a75bd"], notes: [146.83, 196, 220, 293.66], tempo: 4200,
-    particle: "rgba(150,220,220,"
-  },
-  focus: {
-    title: "Golden Hour", subtitle: "A warm rhythm for deep focus",
-    colors: ["#f1c67c", "#b46867"], notes: [164.81, 220, 261.63, 329.63], tempo: 2600,
-    particle: "rgba(241,198,124,"
-  },
-  energy: {
-    title: "Inner Spark", subtitle: "A vivid pulse to move with",
-    colors: ["#ff907b", "#bf3c76"], notes: [196, 246.94, 293.66, 392], tempo: 950,
-    particle: "rgba(255,121,111,"
-  },
-  dream: {
-    title: "Lunar Drift", subtitle: "A weightless place beyond time",
-    colors: ["#cab7ff", "#6a75d9"], notes: [130.81, 174.61, 220, 261.63], tempo: 5200,
-    particle: "rgba(194,174,255,"
-  }
-};
-
-let currentMood = "calm";
-let audioCtx, master, padGain, filter, lfo, timer, startedAt = 0, elapsed = 0;
-let isPlaying = false;
-let variation = 0;
-let breathing = true;
-
-const body = document.body;
-const playBtn = document.getElementById("playBtn");
-const soundStatus = document.getElementById("soundStatus");
-const progress = document.getElementById("progress");
-const waveform = document.getElementById("waveform");
-const toast = document.getElementById("toast");
-
-for (let i = 0; i < 52; i++) {
-  const bar = document.createElement("span");
-  bar.style.setProperty("--height", 18 + Math.random() * 75 + "%");
-  bar.style.setProperty("--duration", .45 + Math.random() * 1.2 + "s");
-  bar.style.setProperty("--delay", -Math.random() * 1.5 + "s");
-  waveform.appendChild(bar);
-}
-
-function initAudio() {
-  if (audioCtx) return;
-  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  master = audioCtx.createGain();
-  master.gain.value = 0;
-  filter = audioCtx.createBiquadFilter();
-  filter.type = "lowpass";
-  filter.frequency.value = 850;
-  filter.Q.value = .7;
-  padGain = audioCtx.createGain();
-  padGain.gain.value = .18;
-
-  const compressor = audioCtx.createDynamicsCompressor();
-  padGain.connect(filter).connect(compressor).connect(master).connect(audioCtx.destination);
-
-  lfo = audioCtx.createOscillator();
-  const lfoGain = audioCtx.createGain();
-  lfo.frequency.value = .08;
-  lfoGain.gain.value = 260;
-  lfo.connect(lfoGain).connect(filter.frequency);
-  lfo.start();
-}
-
-function playTone(freq, duration = 5) {
-  if (!audioCtx || !isPlaying) return;
-  const now = audioCtx.currentTime;
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-  const pan = audioCtx.createStereoPanner();
-  osc.type = currentMood === "energy" ? "triangle" : "sine";
-  osc.frequency.setValueAtTime(freq / 2, now);
-  osc.frequency.exponentialRampToValueAtTime(freq, now + .08);
-  pan.pan.value = Math.random() * 1.2 - .6;
-  gain.gain.setValueAtTime(.0001, now);
-  gain.gain.exponentialRampToValueAtTime(currentMood === "energy" ? .12 : .075, now + .8);
-  gain.gain.exponentialRampToValueAtTime(.0001, now + duration);
-  osc.connect(gain).connect(pan).connect(padGain);
-  osc.start(now); osc.stop(now + duration + .1);
-}
-
-function scheduleSoundscape() {
-  clearInterval(timer);
-  const mood = moods[currentMood];
-  playTone(mood.notes[Math.floor(Math.random() * mood.notes.length)], mood.tempo / 550);
-  timer = setInterval(() => {
-    const note = mood.notes[(Math.floor(Math.random() * mood.notes.length) + variation) % mood.notes.length];
-    playTone(note * (Math.random() > .78 ? 2 : 1), mood.tempo / 600);
-  }, mood.tempo);
-}
-
-async function togglePlay(force) {
-  initAudio();
-  const shouldPlay = typeof force === "boolean" ? force : !isPlaying;
-  if (shouldPlay) {
-    await audioCtx.resume();
-    isPlaying = true;
-    startedAt = performance.now() - elapsed * 1000;
-    master.gain.cancelScheduledValues(audioCtx.currentTime);
-    master.gain.linearRampToValueAtTime(.7, audioCtx.currentTime + 1.5);
-    scheduleSoundscape();
-  } else {
-    isPlaying = false;
-    elapsed = (performance.now() - startedAt) / 1000;
-    master.gain.cancelScheduledValues(audioCtx.currentTime);
-    master.gain.linearRampToValueAtTime(0, audioCtx.currentTime + .5);
-    clearInterval(timer);
-  }
-  body.classList.toggle("playing", isPlaying);
-  document.getElementById("statusText").textContent = isPlaying ? "Sound on" : "Sound off";
-  playBtn.setAttribute("aria-label", isPlaying ? "暫停" : "播放");
-}
-
-function selectMood(name) {
-  currentMood = name;
-  body.dataset.mood = name;
-  const mood = moods[name];
-  document.getElementById("trackTitle").textContent = mood.title;
-  document.getElementById("trackSubtitle").textContent = mood.subtitle;
-  document.querySelectorAll(".mood-card").forEach(card => {
-    const selected = card.dataset.mood === name;
-    card.classList.toggle("active", selected);
-    card.setAttribute("aria-checked", selected);
-  });
-  if (audioCtx) {
-    filter.frequency.cancelScheduledValues(audioCtx.currentTime);
-    filter.frequency.linearRampToValueAtTime(name === "energy" ? 1500 : name === "dream" ? 620 : 900, audioCtx.currentTime + 1);
-    if (isPlaying) scheduleSoundscape();
-  }
-}
-
-document.querySelectorAll(".mood-card").forEach(card => {
-  card.addEventListener("click", () => selectMood(card.dataset.mood));
-});
-playBtn.addEventListener("click", () => togglePlay());
-soundStatus.addEventListener("click", () => togglePlay());
-
-document.getElementById("shuffleBtn").addEventListener("click", () => {
-  variation = (variation + 1) % 4;
-  if (isPlaying) {
-    scheduleSoundscape();
-    playTone(moods[currentMood].notes[variation] * 2, 3);
-  }
-  showToast("聲景已產生新的變化");
-});
-document.getElementById("resetBtn").addEventListener("click", () => {
-  elapsed = 0; startedAt = performance.now(); progress.value = 0;
-  if (isPlaying) scheduleSoundscape();
-  showToast("已回到聲景起點");
-});
-progress.addEventListener("input", () => {
-  elapsed = Number(progress.value) * 3.6;
-  startedAt = performance.now() - elapsed * 1000;
-  progress.style.setProperty("--progress", progress.value + "%");
-});
-
-function formatTime(seconds) {
-  const m = Math.floor(seconds / 60);
-  const s = Math.floor(seconds % 60).toString().padStart(2, "0");
-  return m + ":" + s;
-}
-function updateClock() {
-  if (isPlaying) elapsed = (performance.now() - startedAt) / 1000;
-  const visual = (elapsed % 360) / 3.6;
-  progress.value = visual;
-  progress.style.setProperty("--progress", visual + "%");
-  document.getElementById("currentTime").textContent = formatTime(elapsed);
-  requestAnimationFrame(updateClock);
-}
-updateClock();
-
-document.getElementById("breathToggle").addEventListener("click", () => {
-  breathing = !breathing;
-  document.querySelector(".breath-panel").classList.toggle("paused", !breathing);
-  document.getElementById("breathToggle").textContent = breathing ? "暫停呼吸引導" : "繼續呼吸引導";
-});
-
-let breathPhase = true;
-setInterval(() => {
-  if (!breathing) return;
-  breathPhase = !breathPhase;
-  document.getElementById("breathText").textContent = breathPhase ? "吸氣" : "吐氣";
-  document.getElementById("breathHint").textContent = breathPhase ? "跟著光圈，慢慢吸氣" : "放鬆身體，緩緩吐氣";
-}, 4000);
-
-function showToast(message) {
-  toast.textContent = message;
-  toast.classList.add("show");
-  clearTimeout(toast.hideTimer);
-  toast.hideTimer = setTimeout(() => toast.classList.remove("show"), 2200);
-}
-
-const canvas = document.getElementById("ambientCanvas");
-const ctx = canvas.getContext("2d");
-let particles = [];
-function resize() {
-  canvas.width = innerWidth * devicePixelRatio;
-  canvas.height = innerHeight * devicePixelRatio;
-  ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
-  particles = Array.from({length: Math.min(55, Math.floor(innerWidth / 22))}, () => ({
-    x: Math.random()*innerWidth, y:Math.random()*innerHeight,
-    r:Math.random()*1.4+.2, vx:(Math.random()-.5)*.16, vy:(Math.random()-.5)*.16,
-    a:Math.random()*.22+.03
-  }));
-}
-function draw() {
-  ctx.clearRect(0,0,innerWidth,innerHeight);
-  const g=ctx.createRadialGradient(innerWidth*.78,innerHeight*.24,0,innerWidth*.78,innerHeight*.24,innerWidth*.65);
-  const c=moods[currentMood].colors;
-  g.addColorStop(0,c[1]+"25");g.addColorStop(.45,c[0]+"0d");g.addColorStop(1,"transparent");
-  ctx.fillStyle=g;ctx.fillRect(0,0,innerWidth,innerHeight);
-  particles.forEach(p=>{
-    p.x+=p.vx*(isPlaying?2:1);p.y+=p.vy*(isPlaying?2:1);
-    if(p.x<0)p.x=innerWidth;if(p.x>innerWidth)p.x=0;if(p.y<0)p.y=innerHeight;if(p.y>innerHeight)p.y=0;
-    ctx.beginPath();ctx.fillStyle=moods[currentMood].particle+p.a+")";ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();
-  });
-  requestAnimationFrame(draw);
-}
-addEventListener("resize",resize);resize();draw();
-
-const valenceSlider = document.getElementById("valence");
-const arousalSlider = document.getElementById("arousal");
-const valenceOut = document.getElementById("valenceOut");
-const arousalOut = document.getElementById("arousalOut");
-
-function updateCheckin() {
-  valenceOut.value = valenceSlider.value;
-  arousalOut.value = arousalSlider.value;
-  valenceSlider.style.setProperty("--progress", ((valenceSlider.value - 1) / 8 * 100) + "%");
-  arousalSlider.style.setProperty("--progress", ((arousalSlider.value - 1) / 8 * 100) + "%");
-}
-valenceSlider.addEventListener("input", updateCheckin);
-arousalSlider.addEventListener("input", updateCheckin);
-updateCheckin();
+const traits={O:{name:"開放性",en:"Openness",color:"#9177ff",style:"幻想藝術",role:"概念策展人",desc:"擅長探索新聲音、建立作品概念與跨域靈感。"},C:{name:"盡責性",en:"Conscientiousness",color:"#c8ff62",style:"數位精準",role:"製作統籌",desc:"擅長規劃流程、整理素材並推進作品如期完成。"},E:{name:"外向性",en:"Extraversion",color:"#ff77af",style:"霓虹舞台",role:"表演與溝通者",desc:"擅長帶動能量、表達想法與連結團隊成員。"},A:{name:"親和性",en:"Agreeableness",color:"#65e4db",style:"柔和共感",role:"團隊協調者",desc:"擅長傾聽、整合不同意見並維持合作氛圍。"},N:{name:"情緒敏感性",en:"Neuroticism",color:"#ff8b64",style:"情緒朋克",role:"情感敘事者",desc:"對情緒細節敏銳，能捕捉作品張力與深層感受。"}};
+const questions=[
+["我有豐富的想像力。","O"],["我喜歡探索抽象或複雜的想法。","O"],["藝術與美感對我很重要。","O"],["我常對新的體驗感到好奇。","O"],["我喜歡嘗試不同風格的音樂。","O"],["我能從日常事物想到新的可能。","O"],["我偏好熟悉的做法，不太想改變。","O",1],["我對哲學或創意議題興趣不大。","O",1],
+["我會事先安排工作步驟。","C"],["我答應的事情通常會準時完成。","C"],["我會仔細檢查作品中的細節。","C"],["即使無人提醒，我也能持續完成任務。","C"],["我的物品與檔案通常整理得很清楚。","C"],["我會為長期目標穩定投入。","C"],["我常拖到最後一刻才開始。","C",1],["我做事容易因分心而中斷。","C",1],
+["我喜歡主動認識新朋友。","E"],["在人群中，我通常充滿活力。","E"],["我願意在團隊中表達自己的想法。","E"],["我喜歡熱鬧且有互動的場合。","E"],["我容易帶動團隊的氣氛。","E"],["長時間獨處會讓我想找人交流。","E"],["我在人多的場合通常保持安靜。","E",1],["我不太喜歡成為大家注意的焦點。","E",1],
+["我會留意他人的感受。","A"],["發生歧見時，我願意理解對方。","A"],["我樂於協助需要幫忙的夥伴。","A"],["我相信多數人抱有善意。","A"],["我重視團隊和諧與彼此尊重。","A"],["我能耐心聽完不同意見。","A"],["競爭時，我不太在意是否傷害別人。","A",1],["我很容易對別人的失誤感到不耐煩。","A",1],
+["壓力出現時，我容易感到緊張。","N"],["我會反覆擔心可能出錯的事情。","N"],["我的情緒容易受到周遭氣氛影響。","N"],["面對批評時，我需要時間恢復。","N"],["我常注意到自己細微的情緒變化。","N"],["重要事件前，我容易感到焦慮。","N"],["遇到突發狀況時，我通常十分冷靜。","N",1],["壓力再大，我的情緒也很少波動。","N",1]];
+let state={name:"",avatar:"♪",answers:Array(40).fill(null),q:0,scores:null,persona:0,team:[],messages:[]};
+const screens=["home","profile","quiz","loading","result","team","chat"],$=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+function go(id){$$(".screen").forEach(x=>x.classList.toggle("active",x.id===id));let n=Math.max(0,screens.indexOf(id)-1);$$("#stepNav i").forEach((x,i)=>x.classList.toggle("active",i<=n));scrollTo({top:0,behavior:"smooth"});history.replaceState(null,"","#"+id);if(id==="result"&&state.scores)renderResult();if(id==="team")renderTeam();if(id==="chat")renderChat()}
+$$("[data-go]").forEach(b=>b.onclick=()=>go(b.dataset.go));
+$$(".avatar-choice").forEach(b=>b.onclick=()=>{$$(".avatar-choice").forEach(x=>x.classList.remove("active"));b.classList.add("active");state.avatar=b.dataset.avatar});
+$("#toQuiz").onclick=()=>{let name=$("#userName").value.trim();if(!name){toast("請先輸入名字或暱稱");return $("#userName").focus()}state.name=name;save();go("quiz");renderQuestion()};
+function renderQuestion(){let q=state.q;$("#qCount").textContent="QUESTION "+String(q+1).padStart(2,"0")+" / 40";$("#qProgress").style.width=(q+1)/40*100+"%";$("#questionText").textContent=questions[q][0];$$("#likert button").forEach(b=>b.classList.toggle("selected",Number(b.dataset.value)===state.answers[q]));$("#prevQ").disabled=q===0}
+$$("#likert button").forEach(b=>b.onclick=()=>answer(Number(b.dataset.value)));
+function answer(v){state.answers[state.q]=v;save();renderQuestion();setTimeout(()=>{if(state.q<39){state.q++;renderQuestion()}else finishQuiz()},170)}
+$("#prevQ").onclick=()=>{if(state.q>0){state.q--;renderQuestion()}};$("#saveExit").onclick=()=>{save();toast("進度已暫存在這台裝置");go("home")};addEventListener("keydown",e=>{if($("#quiz").classList.contains("active")&&/[1-5]/.test(e.key))answer(Number(e.key))});
+function finishQuiz(){let sums={O:0,C:0,E:0,A:0,N:0};questions.forEach((q,i)=>sums[q[1]]+=q[2]?6-state.answers[i]:state.answers[i]);Object.keys(sums).forEach(k=>sums[k]=Math.round((sums[k]-8)/32*100));state.scores=sums;save();go("loading");let p=0,t=setInterval(()=>{p+=4;$("#loadPercent").textContent=p+"%";if(p===44)$("#loadText").textContent="尋找最高的兩項特質…";if(p===76)$("#loadText").textContent="生成音樂角色與協作建議…";if(p>=100){clearInterval(t);setTimeout(()=>go("result"),350)}},45)}
+function ranked(){return Object.entries(state.scores).sort((a,b)=>b[1]-a[1])}
+function renderResult(){let rank=ranked(),top=rank[0][0],second=rank[1][0],t=traits[top],s=traits[second];$("#resultName").textContent=state.name;$("#personaName").textContent=t.style+"型創作者";$("#personaStyle").textContent=t.en+" × "+s.en;let av=$("#generatedAvatar");av.className="generated-avatar style-"+top;av.querySelector(".avatar-face").textContent=[state.avatar,"✦","◉"][state.persona];$("#avatarSwitch").innerHTML=[0,1,2].map((_,i)=>'<button class="'+(i===state.persona?"active":"")+'" data-i="'+i+'"></button>').join("");$$("#avatarSwitch button").forEach(b=>b.onclick=()=>{state.persona=Number(b.dataset.i);renderResult()});$("#scoreList").innerHTML=rank.map(([k,v])=>'<div class="score-row"><span>'+k+'</span><i><b style="width:'+v+'%;background:'+traits[k].color+'"></b></i><strong>'+v+'</strong></div>').join("");$("#topTraits").textContent=t.name+" × "+s.name;$("#advice").textContent="你以「"+t.name+"」最為突出，同時具備「"+s.name+"」優勢。"+t.desc+s.desc+" 合作時，可主動說明自己的工作節奏，並與夥伴確認角色與期待。";$("#musicRole").textContent=t.role;$("#musicDesc").textContent=t.desc;drawRadar()}
+function drawRadar(){let c=$("#radar"),x=c.getContext("2d"),cx=230,cy=195,R=135,keys=["O","C","E","A","N"];x.clearRect(0,0,c.width,c.height);x.font="12px DM Sans";x.textAlign="center";for(let ring=1;ring<=4;ring++){x.beginPath();keys.forEach((k,i)=>{let a=-Math.PI/2+i*Math.PI*2/5,r=R*ring/4,px=cx+Math.cos(a)*r,py=cy+Math.sin(a)*r;i?x.lineTo(px,py):x.moveTo(px,py)});x.closePath();x.strokeStyle="#343440";x.stroke()}keys.forEach((k,i)=>{let a=-Math.PI/2+i*Math.PI*2/5;x.fillStyle=traits[k].color;x.fillText(k+" "+traits[k].name,cx+Math.cos(a)*(R+27),cy+Math.sin(a)*(R+27)+4)});x.beginPath();keys.forEach((k,i)=>{let a=-Math.PI/2+i*Math.PI*2/5,r=R*state.scores[k]/100,px=cx+Math.cos(a)*r,py=cy+Math.sin(a)*r;i?x.lineTo(px,py):x.moveTo(px,py)});x.closePath();x.fillStyle="#c8ff6230";x.fill();x.strokeStyle="#c8ff62";x.lineWidth=2;x.stroke()}
+let audioCtx,osc,gain,audioPlaying=false;
+function toggleSound(btn,team=false){if(!audioCtx){audioCtx=new(window.AudioContext||window.webkitAudioContext)();gain=audioCtx.createGain();gain.gain.value=.06;gain.connect(audioCtx.destination)}if(audioPlaying){try{osc.stop()}catch(e){}audioPlaying=false;btn.classList.remove("playing");btn.innerHTML=team?"▶ 團隊聲景":"<i>▶</i> 試聽你的聲景";return}let key=state.scores?ranked()[0][0]:"O",freq={O:261.63,C:220,E:329.63,A:293.66,N:196}[key],lfo=audioCtx.createOscillator(),lg=audioCtx.createGain();osc=audioCtx.createOscillator();osc.type=key==="E"?"triangle":"sine";osc.frequency.value=freq;lfo.frequency.value=team?2.2:.12;lg.gain.value=team?18:5;lfo.connect(lg).connect(osc.frequency);osc.connect(gain);osc.start();lfo.start();osc.onended=()=>{try{lfo.stop()}catch(e){}};audioPlaying=true;btn.classList.add("playing");btn.innerHTML=team?"■ 停止聲景":"<i>■</i> 停止試聽"}
+$("#previewSound").onclick=e=>toggleSound(e.currentTarget);$("#retake").onclick=()=>{if(confirm("確定要清除目前作答並重新測驗嗎？")){state.answers=Array(40).fill(null);state.q=0;state.scores=null;save();go("profile")}};
+const samples=[{name:"曜鳴",avatar:"♬",top:"C",second:"E",role:"節奏／專案統籌"},{name:"思岑",avatar:"♫",top:"A",second:"O",role:"和聲／團隊協調"},{name:"思成",avatar:"♩",top:"E",second:"C",role:"演出／對外溝通"},{name:"Mia",avatar:"◉",top:"N",second:"O",role:"詞曲／情感敘事"},{name:"Alex",avatar:"✦",top:"O",second:"A",role:"概念／聲音設計"}];
+function renderTeam(rematch=false){if(!state.scores)return go("profile");let rank=ranked(),me={name:state.name,avatar:[state.avatar,"✦","◉"][state.persona],top:rank[0][0],second:rank[1][0],role:traits[rank[0][0]].role,me:true},pool=[...samples];if(rematch)pool.sort(()=>Math.random()-.5);state.team=[me,...pool.filter(x=>x.top!==me.top).slice(0,3)];save();$("#memberGrid").innerHTML=state.team.map(m=>'<article class="member-card"><span>'+(m.me?"YOU":"MATCHED")+'</span><div class="member-avatar style-'+m.top+'">'+m.avatar+'</div><h3>'+m.name+'</h3><p>'+m.role+'</p><div class="trait-tags"><i>'+m.top+" "+traits[m.top].name+'</i><i>'+m.second+" "+traits[m.second].name+'</i></div></article>').join("");$("#roleMap").innerHTML=state.team.map(m=>'<div><span>'+m.name+'</span>'+m.role+'</div>').join("");let unique=new Set(state.team.map(x=>x.top)).size;$("#balanceScore").textContent=72+unique*6+" / 100";let planner=state.team.find(x=>x.top==="C")||me,creator=state.team.find(x=>x.top==="O")||me;$("#teamNote").textContent="團隊包含 "+unique+" 種主要特質。建議由 "+planner.name+" 整理時程、"+creator.name+" 發展概念，並在每次討論結束前確認分工。"}
+$("#rematch").onclick=()=>{renderTeam(true);toast("已重新計算互補組合")};
+function renderChat(){if(!state.team.length)renderTeam();$("#sideMembers").innerHTML=state.team.map(m=>'<div><i class="style-'+m.top+'">'+m.avatar+'</i><span>'+m.name+'<small> · '+traits[m.top].name+'</small></span></div>').join("");if(!state.messages.length)state.messages=[{name:"系統",avatar:"4Y",text:"團隊已建立！先和夥伴分享你想做的音樂方向。"},{name:state.team[1].name,avatar:state.team[1].avatar,text:"嗨！我可以先整理製作時程，大家有想做的曲風嗎？"}];renderMessages();$("#roomSound").onclick=e=>toggleSound(e.currentTarget,true)}
+function renderMessages(){$("#messages").innerHTML=state.messages.map(m=>'<div class="message '+(m.name===state.name?"mine":"")+'"><i>'+m.avatar+'</i><div class="bubble"><span>'+m.name+'</span>'+escapeHTML(m.text)+'</div></div>').join("");$("#messages").scrollTop=$("#messages").scrollHeight}
+$("#chatForm").onsubmit=e=>{e.preventDefault();sendMessage($("#messageInput").value)};$$(".quick-replies button").forEach(b=>b.onclick=()=>sendMessage(b.textContent));
+function sendMessage(text){text=text.trim();if(!text)return;state.messages.push({name:state.name,avatar:[state.avatar,"✦","◉"][state.persona],text});$("#messageInput").value="";save();renderMessages();setTimeout(()=>{let r=["好，我把這個方向記下來！","我喜歡這個想法，可以再加入一點環境聲嗎？","收到，我來試一個版本。"];state.messages.push({name:state.team[2].name,avatar:state.team[2].avatar,text:r[Math.floor(Math.random()*r.length)]});save();renderMessages()},700)}
+function escapeHTML(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}function toast(s){let t=$("#toast");t.textContent=s;t.classList.add("show");clearTimeout(t.x);t.x=setTimeout(()=>t.classList.remove("show"),2200)}function save(){localStorage.setItem("4young-state",JSON.stringify(state))}
+try{let saved=JSON.parse(localStorage.getItem("4young-state"));if(saved)state={...state,...saved}}catch(e){}$("#userName").value=state.name;let hash=location.hash.slice(1);go(screens.includes(hash)?hash:"home");if(hash==="quiz")renderQuestion();
