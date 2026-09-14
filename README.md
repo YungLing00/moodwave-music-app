@@ -9,38 +9,37 @@ https://yungling00.github.io/moodwave-music-app/
 ## 完整功能
 
 1. 填寫名字並選擇初始頭貼
-2. 完成 40 題 Big Five 人格問卷
-3. 支援反向題計分，產生 O／C／E／A／N 五項百分比分數
-4. 顯示人格雷達圖與最高兩項特質分析
-5. 依最高人格產生五種視覺風格的音樂角色頭像
-6. 推薦音樂團隊角色並提供即時生成聲景
-7. 依主要特質差異提供互補隊友與角色分工
-8. 進入團隊聊天室，支援訊息、快捷回覆與模擬隊友回應
-9. 以 localStorage 保存作答、結果、隊伍與對話
-
-## 五項人格與視覺風格
-
-| 構面 | 專案視覺風格 | 音樂角色 |
-|---|---|---|
-| O 開放性 | 幻想藝術 | 概念策展人 |
-| C 盡責性 | 數位精準 | 製作統籌 |
-| E 外向性 | 霓虹舞台 | 表演與溝通者 |
-| A 親和性 | 柔和共感 | 團隊協調者 |
-| N 情緒敏感性 | 情緒朋克 | 情感敘事者 |
-
-## 簡報功能轉譯
-
-原始「4young羊」簡報提出的流程包含：人格問卷、人格建議、內在性格視覺化、填寫名字與選擇頭貼、進入聊天室及群組訊息。本版本已將上述流程製作為可操作的前端 App，並加入音樂創作團隊情境。
+2. 完成 IPIP 官方 50 題 Big Five Factor Markers 問卷
+3. 依 IPIP 官方 scoring key 進行正向題與反向題計分ng羊」簡報提出的流程包含：人格問卷、人格建議、內在性格視覺化、填寫名字與選擇頭貼、進入聊天室及群組訊息。本版本已將上述流程製作為可操作的前端 App，並加入音樂創作團隊情境。
 
 ## 技術
 
 - HTML5 / CSS3 / Vanilla JavaScript
 - Canvas 人格雷達圖
-- Web Audio API 即時聲景
+- HTML5 Audio 授權音樂播放器
 - LocalStorage 本機資料保存
 - GitHub Pages 靜態部署
 
-## 研究來源
+## 問卷依據
+
+採用 International Personality Item Pool（IPIP）的 50-item Big-Five Factor Markers。IPIP 官方說明題庫屬於 public domain，可複製、翻譯與修改使用。
+
+- [IPIP 50 題原始問卷與題目鍵值](https://ipip.ori.org/New_IPIP-50-item-scale.htm)
+- [IPIP 官方計分規則](https://ipip.ori.org/newScoringInstructions.htm)
+- [IPIP 個人分數解讀注意事項](https://ipip.ori.org/InterpretingIndividualIPIPScaleScores.htm)
+- Goldberg, L. R. (1992). The development of markers for the Big-Five factor structure. Psychological Assessment, 4, 26–42.
+
+本專案採五點量尺。正向題依 1–5 計分，反向題依 5–1 計分；每個構面10題，原始分數範圍10–50，介面換算為量尺內相對百分比。此百分比不是人口百分位。
+
+## 音樂授權
+
+播放器使用 Chris Zabriskie《Cylinders》系列中的 Cylinder Seven、Cylinder Three 與 Cylinder Eight。作者將專輯開放於 Creative Commons Attribution 授權下使用。
+
+- [Cylinders 官方專輯與授權說明](https://chriszabriskie.com/cylinders/)
+- [Cylinder Seven — Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Chris_Zabriskie_-_07_-_Cylinder_Seven.ogg)
+- 音樂：Chris Zabriskie，Creative Commons Attribution 4.0
+
+## 原專案研究來源
 
 - 國立政治大學社會科學學院：〈理財專員之人格特質與工作績效關聯性之研究〉
 - 國立宜蘭大學應用經濟與管理學系：〈工作價值觀落差對組織衝突之影響－以五大人格特質為調和變項〉
@@ -48,4 +47,4 @@ https://yungling00.github.io/moodwave-music-app/
 
 ## 使用限制
 
-目前是互動設計原型。40 題採五點量尺並包含反向計分，用於展示人格視覺化與團隊協作流程，不應作為臨床心理診斷、招募淘汰或單一人事決策依據。正式研究或機構導入前，仍需確認量表授權、信效度、研究倫理與個資處理方式。
+目前是互動設計原型。IPIP 50 題採五點量尺並包含反向計分，用於展示人格視覺化與團隊協作流程，不應作為臨床心理診斷、招募淘汰或單一人事決策依據。正式研究或機構導入前，仍需確認量表授權、信效度、研究倫理與個資處理方式。
