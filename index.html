@@ -34,6 +34,17 @@
 
 <section class="screen" id="profile">
   <div class="section-head"><div><span>STEP 01 / 06</span><h2>先讓我們認識你</h2></div><p>資料只儲存在你的瀏覽器。</p></div>
+  <section class="bigfive-guide" aria-labelledby="bigfiveTitle">
+    <div class="guide-intro"><span>THE BIG FIVE</span><h3 id="bigfiveTitle">五大人格不是五種人，<br>而是每個人都有的五條光譜。</h3><p>分數高低不是好壞，也不是診斷。它描述你較常出現的思考、行動與情緒模式；同一特質在不同情境中，都可能成為優勢或挑戰。</p></div>
+    <div class="trait-guide-grid">
+      <article style="--trait:#ff77af"><b>O</b><h4>開放性 <small>Openness</small></h4><p>好奇心、想像力與美感敏銳度。</p><div><span>偏低：務實、熟悉、重可行性</span><i></i><span>偏高：探索、新奇、抽象創意</span></div></article>
+      <article style="--trait:#c8ff62"><b>C</b><h4>盡責性 <small>Conscientiousness</small></h4><p>規劃、自律、秩序與完成目標的傾向。</p><div><span>偏低：彈性、即興、隨情境調整</span><i></i><span>偏高：有條理、可靠、能持續投入</span></div></article>
+      <article style="--trait:#ffad5c"><b>E</b><h4>外向性 <small>Extraversion</small></h4><p>社交能量、活躍度與表達主張的傾向。</p><div><span>偏低：安靜、獨立、偏好深度互動</span><i></i><span>偏高：熱情、主動、從互動獲得能量</span></div></article>
+      <article style="--trait:#65e4db"><b>A</b><h4>親和性 <small>Agreeableness</small></h4><p>同理、信任、合作與照顧關係的傾向。</p><div><span>偏低：直接、懷疑、重競爭與界線</span><i></i><span>偏高：體貼、合作、願意理解他人</span></div></article>
+      <article style="--trait:#9177ff"><b>N</b><h4>情緒敏感性 <small>Neuroticism</small></h4><p>對壓力、風險與負向情緒的敏感程度。</p><div><span>偏低：平穩、復原快、不易受擾動</span><i></i><span>偏高：敏銳、警覺、情緒感受較強</span></div></article>
+    </div>
+    <p class="guide-note">音樂推薦只把人格研究轉成探索線索，不會判定你「應該」喜歡哪一種音樂。</p>
+  </section>
   <div class="profile-layout">
     <div class="field-card">
       <label for="userName">你的名字或暱稱</label>
@@ -86,13 +97,13 @@
   <div class="music-role">
     <div class="role-copy"><span>YOUR MUSIC ROLE</span><h3 id="musicRole"></h3><p id="musicDesc"></p></div>
     <div class="licensed-player">
-      <div class="track-meta"><span id="trackLicense">CC BY 4.0</span><h4 id="trackName">Cylinder Seven</h4><p>Chris Zabriskie · Cylinders</p></div>
+      <div class="track-meta"><span id="trackLicense">CC BY 4.0</span><h4 id="trackName">Atlantean Twilight</h4><p><span id="trackTrait">O 開放性選曲</span> · <span id="trackArtist">Kevin MacLeod</span></p></div>
       <audio id="musicAudio" preload="metadata"></audio>
       <div class="audio-controls"><button class="sound-btn" id="previewSound"><i>▶</i> 播放推薦音樂</button><input id="musicProgress" type="range" min="0" max="100" value="0" aria-label="音樂進度"></div>
       <div class="track-picks" id="trackPicks"></div>
       <div class="why-track"><span>WHY THIS TRACK?</span><p id="trackReason"></p><small>人格只能提供偏好線索，實際喜好仍由你決定。</small></div>
       <div class="taste-feedback"><span>這首符合你的感覺嗎？</span><div><button data-taste="love">喜歡 ♡</button><button data-taste="skip">換一首 ↻</button></div><p id="tasteNote">你的選擇會即時調整推薦，不會上傳。</p></div>
-      <a class="license-link" href="https://chriszabriskie.com/cylinders/" target="_blank" rel="noopener">音樂來源與 Creative Commons Attribution 授權 ↗</a>
+      <a class="license-link" id="licenseLink" href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100322" target="_blank" rel="noopener">查看曲目來源與 CC BY 4.0 授權 ↗</a>
     </div>
   </div>
   <button class="primary next-center" data-go="team">尋找互補隊友 <span>→</span></button>
