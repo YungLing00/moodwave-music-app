@@ -220,3 +220,18 @@ function draw() {
   requestAnimationFrame(draw);
 }
 addEventListener("resize",resize);resize();draw();
+
+const valenceSlider = document.getElementById("valence");
+const arousalSlider = document.getElementById("arousal");
+const valenceOut = document.getElementById("valenceOut");
+const arousalOut = document.getElementById("arousalOut");
+
+function updateCheckin() {
+  valenceOut.value = valenceSlider.value;
+  arousalOut.value = arousalSlider.value;
+  valenceSlider.style.setProperty("--progress", ((valenceSlider.value - 1) / 8 * 100) + "%");
+  arousalSlider.style.setProperty("--progress", ((arousalSlider.value - 1) / 8 * 100) + "%");
+}
+valenceSlider.addEventListener("input", updateCheckin);
+arousalSlider.addEventListener("input", updateCheckin);
+updateCheckin();
