@@ -2,7 +2,21 @@
 
 > Listen to how you feel.
 
-MoodWave 是一個結合音樂、情緒感知與呼吸引導的互動式聲景 Web App。使用者選擇當下情緒後，畫面的色彩、動態粒子、音樂節奏與音色會同步改變，讓「聆聽」不只是播放音樂，而是一段能回應使用者狀態的體驗。
+MoodWave 是一個結合音樂、情緒感知與呼吸引導的互動式聲景 Web App。專案概念延伸自團隊過去以政治大學心理學系 Big Five 五大人格架構發展的「4young羊」分組專案。使用者選擇當下情緒後，畫面的色彩、動態粒子、音樂節奏與音色會同步改變，讓「聆聽」不只是播放音樂，而是一段能回應使用者狀態的體驗。
+
+## 專案源起：4young羊 × Big Five
+
+團隊過去以政治大學心理學系採用的 Big Five 五大人格架構，發展人格特質與團隊分組的互動專案「4young羊」。MoodWave 延續其中「尊重個體差異」的核心，進一步探索人格、當下情緒、音樂選擇與互動回饋之間的關係。
+
+Big Five 涵蓋五個主要人格構面：
+
+- 開放性（Openness）
+- 盡責性（Conscientiousness）
+- 外向性（Extraversion）
+- 親和性（Agreeableness）
+- 神經質／情緒穩定相關特質（Neuroticism / Emotional Stability）
+
+本專案不會把人格特質直接等同於當下情緒，也不會依人格分數自動替使用者決定音樂。Big Five 描述的是相對穩定的特質傾向；MoodWave 的情緒自評則只反映使用者當下的主觀狀態。
 
 ## 互動設計概念
 
@@ -64,6 +78,8 @@ MoodWave 採取「研究啟發（research-inspired）」而非「治療有效（
 
 ### 來源
 
+- 專案資料：〈4young羊〉Big Five 團隊分組專案
+- [國立政治大學心理學系](https://psy.nccu.edu.tw/)
 - [國立政治大學心理學系學生論文](https://psy.nccu.edu.tw/PageThesis/Paper?fid=7934)
 - [〈大學生聆聽音樂的正向情緒與情緒調節策略之研究〉](https://www.airitilibrary.com/Article/Detail/U0002-1906201810503800)
 - [國立政治大學〈個人化情緒／情境音樂檢索系統〉](https://thesis.lib.nccu.edu.tw/detail/7739dae6bc91a340ba753ce136f32eda/)
@@ -71,6 +87,7 @@ MoodWave 採取「研究啟發（research-inspired）」而非「治療有效（
 
 ## 研究倫理與限制
 
+- Big Five 僅作為理解個體差異的研究架構，不作人格診斷或能力評價。
 - 本作品不診斷、治療或預防任何心理疾病。
 - 情緒自評只存在瀏覽器目前頁面，不上傳、不建立個人檔案。
 - 目前聲景為互動原型，尚未經正式受試者研究驗證。
