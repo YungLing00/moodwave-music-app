@@ -31,29 +31,47 @@ https://yungling00.github.io/moodwave-music-app/
 
 本專案採五點量尺。正向題依 1–5 計分，反向題依 5–1 計分；每個構面10題，原始分數範圍10–50，介面換算為量尺內相對百分比。此百分比不是人口百分位。
 
-## 音樂授權
+## 音樂與人格設計
+
+網站採用 Kevin MacLeod 在 Incompetech 發布、具明確 Creative Commons Attribution 4.0 授權的免權利金音樂。它們不是「沒有著作權」，而是作者允許在遵守姓名標示條件下重製與使用。
+
+| 構面 | 推薦曲目 | 設計理由 |
+| --- | --- | --- |
+| O 開放性 | Atlantean Twilight | 神祕、層次與想像空間，連結新奇及美感探索 |
+| C 盡責性 | Eternal Hope | 穩定推進、清楚結構，連結規劃與持續投入 |
+| E 外向性 | Pump | 高能量與明顯節拍，連結活躍及律動偏好 |
+| A 親和性 | Electro Cabello | 明亮且具共同律動，轉譯合作與正向互動 |
+| N 情緒敏感性 | Sleep and Then | 低刺激且細膩留白，提供情緒沉澱空間 |
+
+五首曲目作者皆為 Kevin MacLeod，授權皆為 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)。各曲的官方來源與授權頁：
+
+- [Atlantean Twilight](https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100322)
+- [Eternal Hope](https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100238)
+- [Pump](https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1200012)
+- [Electro Cabello](https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1400048)
+- [Sleep and Then](https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100070)
+- [Incompetech 著作權與授權說明](https://incompetech.com/music/royalty-free/about_copyright.html)
+
+## 五大人格介紹
+
+Big Five 不是把人分成五種類型，而是描述每個人在五條連續光譜上的相對位置。高低沒有優劣，且會因情境、時間與自我理解而變動。
+
+- **O 開放性**：好奇、想像、美感敏感與接受新經驗的傾向。
+- **C 盡責性**：規劃、自律、秩序與持續完成目標的傾向。
+- **E 外向性**：社交能量、活躍程度與主動表達的傾向。
+- **A 親和性**：同理、信任、合作與照顧關係的傾向。
+- **N 情緒敏感性**：對壓力、風險與負向情緒的敏感程度；不等於情緒不好。
 
 ## 人格與音樂推薦邏輯
 
-研究顯示人格與音樂偏好之間存在統計關聯，但效果通常不大，不能由人格分數直接斷定個人一定喜歡某首歌。因此平台把推薦視為「探索起點」，並允許使用者自由切換歌曲。
+人格和音樂偏好存在統計關聯，但效果通常不大，不能由分數斷定個人一定喜歡某首歌。網站將推薦定位為可自由切換、可回饋的「探索起點」，並在每首曲目旁顯示設計理由。
 
-- 開放性：研究中較穩定地連結到複雜、新穎、反思性或強烈反叛類型的偏好。
-- 外向性：部分研究發現與 energetic、rhythmic、當代及較具律動感的音樂偏好相關。
-- 親和性與盡責性：在部分研究中和較正向、傳統或低衝突的音樂特徵相關，但結果並非所有研究一致。
-- 情緒敏感性：可能影響音樂中的情緒知覺與使用音樂調節情緒的方式，不代表必然偏好悲傷音樂。
+- 開放性較常連結到複雜、新穎、反思性或強烈類型的音樂偏好。
+- 外向性在部分研究中與 energetic、rhythmic 及當代音樂偏好相關。
+- 親和性與盡責性的音樂關聯較不一致，因此網站採情境化設計轉譯，不宣稱因果。
+- 情緒敏感性可能影響情緒知覺與使用音樂調節情緒的方式，不代表必然偏好悲傷音樂。
 
-參考：
-
-- Rentfrow, P. J., & Gosling, S. D. (2003). The Do Re Mi's of Everyday Life.
-- Rentfrow, P. J., Goldberg, L. R., & Levitin, D. J. (2011). The Structure of Musical Preferences.
-- Greenberg, D. M., et al. (2015). Musical Preferences are Linked to Cognitive Styles.
-- Kleć, M., et al. (2023). Beyond the Big Five personality traits for music recommendation.
-
-播放器使用 Chris Zabriskie《Cylinders》系列中的 Cylinder Seven、Cylinder Three 與 Cylinder Eight。作者將專輯開放於 Creative Commons Attribution 授權下使用。
-
-- [Cylinders 官方專輯與授權說明](https://chriszabriskie.com/cylinders/)
-- [Cylinder Seven — Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Chris_Zabriskie_-_07_-_Cylinder_Seven.ogg)
-- 音樂：Chris Zabriskie，Creative Commons Attribution 4.0
+參考：Rentfrow & Gosling (2003)；Rentfrow, Goldberg, & Levitin (2011)；Greenberg et al. (2015)；Kleć et al. (2023)。
 
 ## 原專案研究來源
 
