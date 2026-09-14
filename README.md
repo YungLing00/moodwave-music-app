@@ -33,6 +33,22 @@ https://yungling00.github.io/moodwave-music-app/
 
 ## 音樂授權
 
+## 人格與音樂推薦邏輯
+
+研究顯示人格與音樂偏好之間存在統計關聯，但效果通常不大，不能由人格分數直接斷定個人一定喜歡某首歌。因此平台把推薦視為「探索起點」，並允許使用者自由切換歌曲。
+
+- 開放性：研究中較穩定地連結到複雜、新穎、反思性或強烈反叛類型的偏好。
+- 外向性：部分研究發現與 energetic、rhythmic、當代及較具律動感的音樂偏好相關。
+- 親和性與盡責性：在部分研究中和較正向、傳統或低衝突的音樂特徵相關，但結果並非所有研究一致。
+- 情緒敏感性：可能影響音樂中的情緒知覺與使用音樂調節情緒的方式，不代表必然偏好悲傷音樂。
+
+參考：
+
+- Rentfrow, P. J., & Gosling, S. D. (2003). The Do Re Mi's of Everyday Life.
+- Rentfrow, P. J., Goldberg, L. R., & Levitin, D. J. (2011). The Structure of Musical Preferences.
+- Greenberg, D. M., et al. (2015). Musical Preferences are Linked to Cognitive Styles.
+- Kleć, M., et al. (2023). Beyond the Big Five personality traits for music recommendation.
+
 播放器使用 Chris Zabriskie《Cylinders》系列中的 Cylinder Seven、Cylinder Three 與 Cylinder Eight。作者將專輯開放於 Creative Commons Attribution 授權下使用。
 
 - [Cylinders 官方專輯與授權說明](https://chriszabriskie.com/cylinders/)
@@ -48,3 +64,17 @@ https://yungling00.github.io/moodwave-music-app/
 ## 使用限制
 
 目前是互動設計原型。IPIP 50 題採五點量尺並包含反向計分，用於展示人格視覺化與團隊協作流程，不應作為臨床心理診斷、招募淘汰或單一人事決策依據。正式研究或機構導入前，仍需確認量表授權、信效度、研究倫理與個資處理方式。
+
+
+## 動態團隊房間
+
+團隊成員不再由固定假資料產生。使用者可以：
+
+- 透過房間頁輸入姓名與主要特質加入
+- 複製房間邀請碼
+- 自由移除非建立者成員
+- 在聊天室中繼續新增成員
+- 切換目前發言者，讓同一裝置上的不同成員留言
+- 依當前成員重新計算特質多樣性與角色建議
+
+目前 GitHub Pages 版本以 localStorage 儲存資料，適合展示與同裝置操作。跨裝置即時同步需要再串接 Firebase、Supabase 或其他具身分驗證的後端。
