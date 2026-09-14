@@ -1,204 +1,113 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0b0c18">
-  <meta name="description" content="MoodWave — 將情緒轉化為即時生成的聲音與光。">
-  <title>MoodWave — Listen to how you feel.</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Noto+Sans+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101019">
+<meta name="description" content="4young羊：以 Big Five 人格分析打造互補的音樂創作團隊。">
+<title>4young羊｜個性化音樂團隊組建</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
-<body data-mood="calm">
-  <canvas id="ambientCanvas" aria-hidden="true"></canvas>
-  <div class="noise" aria-hidden="true"></div>
+<body>
+<div class="grain"></div>
+<header>
+  <button class="logo" data-go="home"><span>4Y</span><b>4young羊</b></button>
+  <nav id="stepNav"><i class="active"></i><i></i><i></i><i></i><i></i><i></i></nav>
+  <span class="header-tag">BIG FIVE × MUSIC TEAM</span>
+</header>
+<main>
+<section class="screen active" id="home">
+  <div class="hero-copy">
+    <p class="kicker">PERSONALITY-DRIVEN COLLABORATION</p>
+    <h1>讓個性被看見，<br><em>讓音樂找到隊友。</em></h1>
+    <p class="lead">用 40 個直覺選擇，理解你的 Big Five 人格輪廓。生成專屬音樂角色，找到與你互補的創作夥伴。</p>
+    <button class="primary" data-go="profile">開始建立音樂人格 <span>→</span></button>
+  </div>
+  <div class="hero-visual">
+    <div class="orbit o1"></div><div class="orbit o2"></div>
+    <div class="sheep"><span class="ear left"></span><span class="ear right"></span><div class="face"><i></i><i></i><b>〰</b></div></div>
+    <div class="trait-pill p1">OPENNESS</div><div class="trait-pill p2">EXTRAVERSION</div><div class="trait-pill p3">AGREEABLENESS</div>
+  </div>
+  <div class="trust-row"><span>01 研究架構</span><span>02 性格視覺化</span><span>03 優勢互補</span><span>04 團隊協作</span></div>
+</section>
 
-  <header class="topbar">
-    <a class="brand" href="#" aria-label="MoodWave 首頁">
-      <span class="brand-mark"><i></i><i></i><i></i></span>
-      <span>MoodWave</span>
-    </a>
-    <button class="sound-status" id="soundStatus" type="button" aria-label="切換聲音">
-      <span class="status-dot"></span>
-      <span id="statusText">Sound off</span>
-    </button>
-  </header>
-
-  <main>
-    <section class="hero">
-      <p class="eyebrow">INTERACTIVE SOUND EXPERIENCE</p>
-      <h1>Listen to how<br><em>you feel.</em></h1>
-      <p class="intro">選擇此刻的心情，讓聲音、色彩與呼吸節奏<br class="desktop-only">陪你回到自己的頻率。</p>
-      <div class="hero-proof"><span>RESEARCH-INSPIRED PROTOTYPE</span><span>PRIVACY BY DESIGN</span><span>NO DATA UPLOADED</span></div>
-    </section>
-
-    <section class="checkin" aria-labelledby="checkinTitle">
-      <div class="question-row">
-        <div><span class="step">CHECK–IN</span><h2 id="checkinTitle">先感受，不急著改變</h2></div>
-        <p>A brief emotional self check-in</p>
+<section class="screen" id="profile">
+  <div class="section-head"><div><span>STEP 01 / 06</span><h2>先讓我們認識你</h2></div><p>資料只儲存在你的瀏覽器。</p></div>
+  <div class="profile-layout">
+    <div class="field-card">
+      <label for="userName">你的名字或暱稱</label>
+      <input id="userName" maxlength="16" placeholder="例如：苓苓">
+      <label>選擇初始頭貼</label>
+      <div class="avatar-options" id="avatarOptions">
+        <button class="avatar-choice active" data-avatar="♪">♪</button><button class="avatar-choice" data-avatar="♫">♫</button>
+        <button class="avatar-choice" data-avatar="♬">♬</button><button class="avatar-choice" data-avatar="♩">♩</button>
       </div>
-      <div class="checkin-panel">
-        <div class="scale-group">
-          <label for="valence">此刻的感受</label>
-          <div class="scale-labels"><span>不舒服</span><output id="valenceOut">5</output><span>舒服</span></div>
-          <input id="valence" class="research-range" type="range" min="1" max="9" value="5">
-        </div>
-        <div class="scale-group">
-          <label for="arousal">此刻的能量</label>
-          <div class="scale-labels"><span>低能量</span><output id="arousalOut">5</output><span>高能量</span></div>
-          <input id="arousal" class="research-range" type="range" min="1" max="9" value="5">
-        </div>
-        <p class="privacy-note">數值只保留在目前頁面，不會上傳或儲存。</p>
-      </div>
-    </section>
+      <button class="primary full" id="toQuiz">開始 40 題人格探索 <span>→</span></button>
+    </div>
+    <aside class="info-card"><span>WHY BIG FIVE?</span><h3>不是把人分類，<br>而是看見每個人的組成。</h3><p>五大人格以連續分數呈現特質差異。每個人都有五項特質，只是比例不同。</p><div class="mini-traits"><b>O</b><b>C</b><b>E</b><b>A</b><b>N</b></div></aside>
+  </div>
+</section>
 
-    <section class="experience" aria-labelledby="moodQuestion">
-      <div class="question-row">
-        <div>
-          <span class="step">01</span>
-          <h2 id="moodQuestion">你現在感覺如何？</h2>
-        </div>
-        <p>How are you feeling right now?</p>
-      </div>
+<section class="screen" id="quiz">
+  <div class="quiz-top"><div><span id="qCount">QUESTION 01 / 40</span><div class="quiz-progress"><i id="qProgress"></i></div></div><button class="ghost" id="saveExit">暫存並離開</button></div>
+  <div class="question-wrap">
+    <p class="trait-hint" id="traitHint">請依照平常真實的自己作答</p>
+    <h2 id="questionText"></h2>
+    <div class="likert" id="likert">
+      <button data-value="1"><i></i><span>非常不同意</span></button><button data-value="2"><i></i><span>不同意</span></button>
+      <button data-value="3"><i></i><span>普通</span></button><button data-value="4"><i></i><span>同意</span></button>
+      <button data-value="5"><i></i><span>非常同意</span></button>
+    </div>
+    <div class="quiz-actions"><button class="back-btn" id="prevQ">← 上一題</button><span>鍵盤 1–5 也可以作答</span></div>
+  </div>
+</section>
 
-      <div class="mood-grid" role="radiogroup" aria-label="選擇情緒">
-        <button class="mood-card active" data-mood="calm" role="radio" aria-checked="true">
-          <span class="card-number">01</span>
-          <span class="orb orb-calm"></span>
-          <span class="mood-name">平靜 <small>CALM</small></span>
-          <span class="mood-desc">讓思緒慢慢沉澱</span>
-        </button>
-        <button class="mood-card" data-mood="focus" role="radio" aria-checked="false">
-          <span class="card-number">02</span>
-          <span class="orb orb-focus"></span>
-          <span class="mood-name">專注 <small>FOCUS</small></span>
-          <span class="mood-desc">進入清晰的流動</span>
-        </button>
-        <button class="mood-card" data-mood="energy" role="radio" aria-checked="false">
-          <span class="card-number">03</span>
-          <span class="orb orb-energy"></span>
-          <span class="mood-name">能量 <small>ENERGY</small></span>
-          <span class="mood-desc">喚醒身體的節奏</span>
-        </button>
-        <button class="mood-card" data-mood="dream" role="radio" aria-checked="false">
-          <span class="card-number">04</span>
-          <span class="orb orb-dream"></span>
-          <span class="mood-name">夢境 <small>DREAM</small></span>
-          <span class="mood-desc">漂浮在想像之間</span>
-        </button>
-      </div>
-    </section>
+<section class="screen" id="loading">
+  <div class="loader-art"><div class="scan-ring"></div><span id="loadPercent">0%</span></div>
+  <h2>正在整理你的人格頻率</h2><p id="loadText">分析五項人格構面…</p>
+</section>
 
-    <section class="player-shell">
-      <div class="now-playing">
-        <div class="vinyl-wrap">
-          <div class="vinyl" id="vinyl">
-            <div class="vinyl-glow"></div>
-            <div class="vinyl-center"><span>MW</span></div>
-          </div>
-          <div class="pulse-ring ring-one"></div>
-          <div class="pulse-ring ring-two"></div>
-        </div>
+<section class="screen" id="result">
+  <div class="section-head"><div><span>STEP 03 / 06</span><h2><b id="resultName"></b> 的人格頻譜</h2></div><button class="ghost" id="retake">重新測驗</button></div>
+  <div class="result-grid">
+    <div class="portrait-card" id="portraitCard">
+      <span class="portrait-label">GENERATED MUSIC PERSONA</span><div class="generated-avatar" id="generatedAvatar"><div class="avatar-face">♪</div></div>
+      <h3 id="personaName"></h3><p id="personaStyle"></p>
+      <div class="avatar-switch" id="avatarSwitch"></div>
+    </div>
+    <div class="analysis-card">
+      <canvas id="radar" width="460" height="390" aria-label="Big Five 人格雷達圖"></canvas>
+      <div class="score-list" id="scoreList"></div>
+    </div>
+  </div>
+  <div class="insight-panel"><span>TOP 2 TRAITS</span><h3 id="topTraits"></h3><p id="advice"></p></div>
+  <div class="music-role"><div><span>YOUR MUSIC ROLE</span><h3 id="musicRole"></h3><p id="musicDesc"></p></div><button class="sound-btn" id="previewSound"><i>▶</i> 試聽你的聲景</button></div>
+  <button class="primary next-center" data-go="team">尋找互補隊友 <span>→</span></button>
+</section>
 
-        <div class="track-info">
-          <span class="playing-label">NOW PLAYING</span>
-          <h2 id="trackTitle">Still Water</h2>
-          <p id="trackSubtitle">A soft space for slowing down</p>
+<section class="screen" id="team">
+  <div class="section-head"><div><span>STEP 05 / 06</span><h2>建立你的音樂團隊</h2></div><p>依特質差異提供互補建議，不代表能力高低。</p></div>
+  <div class="team-summary"><div><span>TEAM CODE</span><b id="teamCode">WAVE-04</b></div><div><span>TEAM BALANCE</span><b id="balanceScore">—</b></div><button class="ghost" id="rematch">重新配對</button></div>
+  <div class="member-grid" id="memberGrid"></div>
+  <div class="role-map" id="roleMap"></div>
+  <div class="team-note"><span>協作提醒</span><p id="teamNote"></p></div>
+  <button class="primary next-center" data-go="chat">進入團隊聊天室 <span>→</span></button>
+</section>
 
-          <div class="waveform" id="waveform" aria-label="音樂視覺化"></div>
-
-          <div class="progress-row">
-            <span id="currentTime">0:00</span>
-            <input id="progress" type="range" min="0" max="100" value="0" aria-label="播放進度">
-            <span>∞</span>
-          </div>
-
-          <div class="controls">
-            <button class="control secondary" id="shuffleBtn" aria-label="切換環境變化" title="環境變化">
-              <svg viewBox="0 0 24 24"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
-            </button>
-            <button class="control play" id="playBtn" aria-label="播放">
-              <svg class="play-icon" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7z"/></svg>
-              <svg class="pause-icon" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></svg>
-            </button>
-            <button class="control secondary" id="resetBtn" aria-label="重新開始" title="重新開始">
-              <svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></svg>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <aside class="breath-panel">
-        <div class="panel-head">
-          <span class="step">02</span>
-          <span>同步你的呼吸</span>
-        </div>
-        <div class="breath-orbit" id="breathOrbit">
-          <div class="breath-core"><span id="breathText">吸氣</span></div>
-        </div>
-        <p id="breathHint">跟著光圈，慢慢吸氣</p>
-        <button id="breathToggle" class="text-button">暫停呼吸引導</button>
-      </aside>
-    </section>
-
-    <section class="evidence" id="evidence">
-      <div class="evidence-heading">
-        <div><span class="step">RESEARCH NOTES</span><h2>從研究走向互動設計</h2></div>
-        <p>本作品是研究啟發的互動原型，不是心理治療或醫療器材。</p>
-      </div>
-      <div class="evidence-grid">
-        <article>
-          <span>01 / BIG FIVE FOUNDATION</span>
-          <h3>從人格理解個體差異</h3>
-          <p>本作品延伸自團隊過去以政大心理系 Big Five 五大人格架構發展的分組專案。五個構面包含開放性、盡責性、外向性、親和性與情緒穩定相關特質，用來理解差異，而不是替人貼標籤。</p>
-          <a href="https://psy.nccu.edu.tw/" target="_blank" rel="noopener">國立政治大學心理學系 ↗</a>
-        </article>
-        <article>
-          <span>02 / MUSIC</span>
-          <h3>音樂作為調節媒介</h3>
-          <p>研究顯示，大學生聆聽熟悉音樂後正向情緒較高，其中放鬆與抽離是常見且較有效的音樂情緒調節策略。</p>
-          <a href="https://www.airitilibrary.com/Article/Detail/U0002-1906201810503800" target="_blank" rel="noopener">〈大學生聆聽音樂的正向情緒與情緒調節策略〉↗</a>
-        </article>
-        <article>
-          <span>03 / PERSONALIZATION</span>
-          <h3>由使用者決定適合的聲音</h3>
-          <p>政大音樂檢索研究以使用者回饋建立個人化特徵；因此 MoodWave 提供聲景選擇與變化控制，不宣稱單一音樂適合所有人。</p>
-          <a href="https://thesis.lib.nccu.edu.tw/detail/7739dae6bc91a340ba753ce136f32eda/" target="_blank" rel="noopener">〈個人化情緒／情境音樂檢索系統〉↗</a>
-        </article>
-        <article>
-          <span>04 / RESPONSIBLE DESIGN</span>
-          <h3>人格不等於當下情緒</h3>
-          <p>Big Five 描述較穩定的人格傾向；MoodWave 的滑桿則只記錄此刻感受。兩者不混用，也不依人格分數自動判定使用者該聽什麼。</p>
-          <a href="#checkinTitle">查看情緒自評設計 ↑</a>
-        </article>
-        <article>
-          <span>05 / MUSIC PRACTICE</span>
-          <h3>音樂與科技的跨域實踐</h3>
-          <p>台藝大音樂系課程包含音樂治療概論、數位音樂與錄音；本原型據此連結聆聽、數位聲音與互動體驗。</p>
-          <a href="https://music.ntua.edu.tw/" target="_blank" rel="noopener">國立臺灣藝術大學音樂學系 ↗</a>
-        </article>
-      </div>
-      <div class="project-origin"><span>PROJECT ORIGIN</span><p>源自「4young羊」Big Five 團隊分組專案，並在 MoodWave 中進一步轉化為音樂、情緒覺察與互動回饋的跨域體驗。</p></div>
-      <div class="method-strip">
-        <span>設計流程</span><b>自我覺察</b><i>→</i><b>自主選擇</b><i>→</i><b>多感官回饋</b><i>→</i><b>再次感受</b>
-      </div>
-    </section>
-
-    <section class="reflection">
-      <span class="step">03</span>
-      <blockquote>“情緒不需要被修正，<br>只需要被好好聽見。”</blockquote>
-      <p>Your feelings don't need fixing. They need listening.</p>
-    </section>
-  </main>
-
-  <footer>
-    <span>MOODWAVE © 2026 · RESEARCH-INSPIRED, NOT CLINICAL</span>
-    <span>DESIGNED FOR MINDFUL MOMENTS</span>
-  </footer>
-
-  <div class="toast" id="toast" role="status">聲景已產生新的變化</div>
-  <script src="app.js"></script>
-</body>
-</html>
+<section class="screen" id="chat">
+  <div class="chat-shell">
+    <aside class="chat-side"><button class="logo small" data-go="home"><span>4Y</span><b>4young羊</b></button><div><span class="online-dot"></span> 4 MEMBERS ONLINE</div><div class="side-members" id="sideMembers"></div><button class="ghost full" data-go="result">查看人格報告</button></aside>
+    <div class="chat-main">
+      <div class="chat-head"><div><span>WAVE ROOM</span><h2 id="chatTeamName">共感創作室</h2></div><button class="sound-btn mini" id="roomSound">▶ 團隊聲景</button></div>
+      <div class="messages" id="messages"></div>
+      <div class="quick-replies"><button>我可以負責旋律</button><button>要不要先定主題？</button><button>收到！</button></div>
+      <form class="composer" id="chatForm"><input id="messageInput" maxlength="200" placeholder="輸入訊息…"><button>傳送 ↑</button></form>
+    </div>
+  </div>
+</section>
+</main>
+<footer><span>4YOUNG羊 © 2026</span><span>BIG FIVE × MUSIC × COLLABORATION</span><span>互動原型・非心理診斷工具</span></footer>
+<div class="toast" id="toast"></div>
+<script src="app.js"></script>
+</body></html>
