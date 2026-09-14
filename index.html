@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b0c18">
+  <meta name="description" content="MoodWave — 將情緒轉化為即時生成的聲音與光。">
+  <title>MoodWave — Listen to how you feel.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Noto+Sans+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-mood="calm">
+  <canvas id="ambientCanvas" aria-hidden="true"></canvas>
+  <div class="noise" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="MoodWave 首頁">
+      <span class="brand-mark"><i></i><i></i><i></i></span>
+      <span>MoodWave</span>
+    </a>
+    <button class="sound-status" id="soundStatus" type="button" aria-label="切換聲音">
+      <span class="status-dot"></span>
+      <span id="statusText">Sound off</span>
+    </button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="eyebrow">INTERACTIVE SOUND EXPERIENCE</p>
+      <h1>Listen to how<br><em>you feel.</em></h1>
+      <p class="intro">選擇此刻的心情，讓聲音、色彩與呼吸節奏<br class="desktop-only">陪你回到自己的頻率。</p>
+    </section>
+
+    <section class="experience" aria-labelledby="moodQuestion">
+      <div class="question-row">
+        <div>
+          <span class="step">01</span>
+          <h2 id="moodQuestion">你現在感覺如何？</h2>
+        </div>
+        <p>How are you feeling right now?</p>
+      </div>
+
+      <div class="mood-grid" role="radiogroup" aria-label="選擇情緒">
+        <button class="mood-card active" data-mood="calm" role="radio" aria-checked="true">
+          <span class="card-number">01</span>
+          <span class="orb orb-calm"></span>
+          <span class="mood-name">平靜 <small>CALM</small></span>
+          <span class="mood-desc">讓思緒慢慢沉澱</span>
+        </button>
+        <button class="mood-card" data-mood="focus" role="radio" aria-checked="false">
+          <span class="card-number">02</span>
+          <span class="orb orb-focus"></span>
+          <span class="mood-name">專注 <small>FOCUS</small></span>
+          <span class="mood-desc">進入清晰的流動</span>
+        </button>
+        <button class="mood-card" data-mood="energy" role="radio" aria-checked="false">
+          <span class="card-number">03</span>
+          <span class="orb orb-energy"></span>
+          <span class="mood-name">能量 <small>ENERGY</small></span>
+          <span class="mood-desc">喚醒身體的節奏</span>
+        </button>
+        <button class="mood-card" data-mood="dream" role="radio" aria-checked="false">
+          <span class="card-number">04</span>
+          <span class="orb orb-dream"></span>
+          <span class="mood-name">夢境 <small>DREAM</small></span>
+          <span class="mood-desc">漂浮在想像之間</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="player-shell">
+      <div class="now-playing">
+        <div class="vinyl-wrap">
+          <div class="vinyl" id="vinyl">
+            <div class="vinyl-glow"></div>
+            <div class="vinyl-center"><span>MW</span></div>
+          </div>
+          <div class="pulse-ring ring-one"></div>
+          <div class="pulse-ring ring-two"></div>
+        </div>
+
+        <div class="track-info">
+          <span class="playing-label">NOW PLAYING</span>
+          <h2 id="trackTitle">Still Water</h2>
+          <p id="trackSubtitle">A soft space for slowing down</p>
+
+          <div class="waveform" id="waveform" aria-label="音樂視覺化"></div>
+
+          <div class="progress-row">
+            <span id="currentTime">0:00</span>
+            <input id="progress" type="range" min="0" max="100" value="0" aria-label="播放進度">
+            <span>∞</span>
+          </div>
+
+          <div class="controls">
+            <button class="control secondary" id="shuffleBtn" aria-label="切換環境變化" title="環境變化">
+              <svg viewBox="0 0 24 24"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+            </button>
+            <button class="control play" id="playBtn" aria-label="播放">
+              <svg class="play-icon" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7z"/></svg>
+              <svg class="pause-icon" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></svg>
+            </button>
+            <button class="control secondary" id="resetBtn" aria-label="重新開始" title="重新開始">
+              <svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <aside class="breath-panel">
+        <div class="panel-head">
+          <span class="step">02</span>
+          <span>同步你的呼吸</span>
+        </div>
+        <div class="breath-orbit" id="breathOrbit">
+          <div class="breath-core"><span id="breathText">吸氣</span></div>
+        </div>
+        <p id="breathHint">跟著光圈，慢慢吸氣</p>
+        <button id="breathToggle" class="text-button">暫停呼吸引導</button>
+      </aside>
+    </section>
+
+    <section class="reflection">
+      <span class="step">03</span>
+      <blockquote>“情緒不需要被修正，<br>只需要被好好聽見。”</blockquote>
+      <p>Your feelings don't need fixing. They need listening.</p>
+    </section>
+  </main>
+
+  <footer>
+    <span>MOODWAVE © 2026</span>
+    <span>DESIGNED FOR MINDFUL MOMENTS</span>
+  </footer>
+
+  <div class="toast" id="toast" role="status">聲景已產生新的變化</div>
+  <script src="app.js"></script>
+</body>
+</html>
